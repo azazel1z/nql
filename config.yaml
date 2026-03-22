@@ -1,0 +1,32 @@
+# Database Configuration
+database:
+  server: ""
+  database: ""
+  driver: "ODBC Driver 17 for SQL Server"
+  port: 1433
+  trust_server_certificate: true
+  username: ""
+  password: ""
+
+# OpenAI Configuration
+openai:
+  api_key: "sk-"
+  model: "gpt-5.1"  
+  temperature: 0 
+  max_tokens: 2000
+  user_location: {
+       "type": "approximate",
+       "country": "IN",
+       "city": "Jaipur",
+       "region": "Jaipur"
+   }
+
+# Agent Configuration
+agents:
+  max_retries: 3
+  timeout: 30 
+  
+# Logging Configuration
+logging:
+  level: "INFO" 
+  file: "nql.log"
