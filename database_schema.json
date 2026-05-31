@@ -1,0 +1,94 @@
+{
+  "standard_tables": [
+    {
+      "table_name": "core.products",
+      "description": "Catalog of products available in the system.",
+      "cols": [
+        ["product_id", "INT", "Primary key"],
+        ["product_code", "VARCHAR(30)", "Unique product identifier"],
+        ["product_name", "VARCHAR(100)", "Name of the product"],
+        ["category", "VARCHAR(50)", "Product category", ["Electronics", "Clothing", "Home", "Sports"]],
+        ["unit_price", "DECIMAL(10,2)", "Base selling price"],
+        ["is_active", "BOOLEAN", "Indicates if product is active", [true, false]]
+      ],
+      "foreign_keys": []
+    },
+    {
+      "table_name": "core.customers",
+      "description": "Stores customer information.",
+      "cols": [
+        ["customer_id", "INT", "Primary key"],
+        ["customer_name", "VARCHAR(100)", "Full name of the customer"],
+        ["email", "VARCHAR(150)", "Email address"],
+        ["city", "VARCHAR(50)", "City of residence"],
+        ["country", "VARCHAR(50)", "Country"],
+        ["created_at", "DATETIME", "Account creation timestamp"]
+      ],
+      "foreign_keys": []
+    },
+    {
+      "table_name": "sales.orders",
+      "description": "Customer orders placed in the system.",
+      "cols": [
+        ["order_id", "INT", "Primary key"],
+        ["order_number", "VARCHAR(30)", "Unique order number"],
+        ["customer_id", "INT", "Reference to customer"],
+        ["order_date", "DATETIME", "Date of order"],
+        ["status", "VARCHAR(20)", "Order status", ["Pending", "Shipped", "Delivered", "Cancelled"]],
+        ["total_amount", "DECIMAL(12,2)", "Total order value"]
+      ],
+      "foreign_keys": [
+        {
+          "column": "customer_id",
+          "references_table": "core.customers",
+          "references_column": "customer_id",
+          "description": "Join to get customer details"
+        }
+      ]
+    },
+    {
+      "table_name": "sales.order_items",
+      "description": "Line items for each order.",
+      "cols": [
+        ["order_item_id", "INT", "Primary key"],
+        ["order_id", "INT", "Reference to order"],
+        ["product_id", "INT", "Reference to product"],
+        ["quantity", "INT", "Quantity ordered"],
+        ["unit_price", "DECIMAL(10,2)", "Price per unit"]
+      ],
+      "foreign_keys": [
+        {
+          "column": "order_id",
+          "references_table": "sales.orders",
+          "references_column": "order_id",
+          "description": "Join to get order details"
+        },
+        {
+          "column": "product_id",
+          "references_table": "core.products",
+          "references_column": "product_id",
+          "description": "Join to get product details"
+        }
+      ]
+    },
+    {
+      "table_name": "inventory.stock",
+      "description": "Tracks current inventory levels.",
+      "cols": [
+        ["stock_id", "INT", "Primary key"],
+        ["product_id", "INT", "Reference to product"],
+        ["warehouse_code", "VARCHAR(20)", "Warehouse identifier"],
+        ["quantity_available", "INT", "Available stock"],
+        ["last_updated", "DATETIME", "Last update timestamp"]
+      ],
+      "foreign_keys": [
+        {
+          "column": "product_id",
+          "references_table": "core.products",
+          "references_column": "product_id",
+          "description": "Join to get product details"
+        }
+      ]
+    }
+  ]
+}
